@@ -1,17 +1,13 @@
 package main
 
 import (
-	"context"
-	"feishuBot/internal/conf"
-	"fmt"
-
 	"github.com/gin-gonic/gin"
-	"github.com/larksuite/oapi-sdk-gin"
-	larkcore "github.com/larksuite/oapi-sdk-go/v3/core"
+	sdkginext "github.com/larksuite/oapi-sdk-gin"
 	"github.com/larksuite/oapi-sdk-go/v3/event/dispatcher"
-	larkim "github.com/larksuite/oapi-sdk-go/v3/service/im/v1"
 	"go.uber.org/zap"
 
+	"feishuBot/internal/conf"
+	"feishuBot/internal/handlers"
 	"feishuBot/internal/services"
 	"feishuBot/utils/logger"
 )
@@ -42,24 +38,7 @@ func main() {
 	services.InitOpenAI()
 
 	handler := dispatcher.NewEventDispatcher("J6P9r7s6Az54G64zt50eVhHwfWp0YVH3", "")
-	handler = handler.OnP2MessageReceiveV1(func(ctx context.Context, event *larkim.P2MessageReceiveV1) error {
-		fmt.Println(larkcore.Prettify(event))
-		fmt.Println(event.RequestId())
-
-		resp, err := services.CallDeepSeekAPI(*event.Event.Message.Content)
-		if err != nil {
-			logger.Error("call deepseek api failed", zap.Error(err))
-			return err
-		}
-
-		err = services.SendMessage(resp, *event.Event.Sender.SenderId.OpenId)
-		if err != nil {
-			logger.Error("send message failed", zap.Error(err))
-			return err
-		}
-
-		return nil
-	})
+	handler = handler.OnP2MessageReceiveV1(handlers.ReceiveMsgHandler)
 
 	g := gin.Default()
 
@@ -68,5 +47,8 @@ func main() {
 		api.POST("/feishu/webhook", sdkginext.NewEventHandlerFunc(handler))
 	}
 
-	g.Run(":8081")
+	err := g.Run(":8081")
+	if err != nil {
+		panic(err)
+	}
 }
