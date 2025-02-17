@@ -1,0 +1,7 @@
+service_unavailable: 服务暂时不可用，请稍后再试
+empty_message_content: 收到空消息内容
+thinking: 正在思考中...
+send_error_failed: 发送错误消息失败
+send_wait_message_failed: 发送等待消息失败
+api_call_failed: 调用 DeepSeek API 失败
+send_final_message_failed: 发送最终消息失败 

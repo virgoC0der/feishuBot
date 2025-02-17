@@ -8,6 +8,7 @@ import (
 	"go.uber.org/zap"
 
 	"feishuBot/internal/services"
+	"feishuBot/utils/i18n"
 	"feishuBot/utils/logger"
 )
 
@@ -15,21 +16,44 @@ func ReceiveMsgHandler(ctx context.Context, event *larkim.P2MessageReceiveV1) er
 	logger.Debug("receive message", zap.String("event", larkcore.Prettify(event)))
 
 	go func() {
-		if err := services.SendMessage("正在思考中...", *event.Event.Sender.SenderId.OpenId); err != nil {
-			logger.Error("send message failed", zap.Error(err))
+		defer func() {
+			if r := recover(); r != nil {
+				logger.Error("panic recovered", zap.Any("recover", r))
+				_ = services.SendMessage(i18n.T("service_unavailable"), *event.Event.Sender.SenderId.OpenId)
+			}
+		}()
+
+		openID := *event.Event.Sender.SenderId.OpenId
+		msgContent := *event.Event.Message.Content
+
+		handleError := func(err error, message string) {
+			logger.Error(message, zap.Error(err))
+			if sendErr := services.SendMessage(i18n.T("service_unavailable"), openID); sendErr != nil {
+				logger.Error(i18n.T("send_error_failed"), zap.Error(sendErr))
+			}
+		}
+
+		sendBotMessage := func(content string) error {
+			return services.SendMessage(content, openID)
+		}
+
+		if msgContent == "" {
 			return
 		}
 
-		resp, err := services.CallDeepSeekAPI(*event.Event.Message.Content)
-		if err != nil {
-			logger.Error("call deepseek api failed", zap.Error(err))
+		if err := sendBotMessage(i18n.T("thinking")); err != nil {
+			handleError(err, i18n.T("send_wait_message_failed"))
 			return
 		}
 
-		err = services.SendMessage(resp, *event.Event.Sender.SenderId.OpenId)
+		resp, err := services.CallDeepSeekAPI(msgContent)
 		if err != nil {
-			logger.Error("send message failed", zap.Error(err))
+			handleError(err, i18n.T("api_call_failed"))
 			return
+		}
+
+		if err := sendBotMessage(resp); err != nil {
+			handleError(err, i18n.T("send_final_message_failed"))
 		}
 	}()
 

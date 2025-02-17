@@ -32,6 +32,8 @@ spec:
               value: "Asia/Shanghai"
             - name: ZONEINFO
               value: /root/time/zoneinfo.zip
+            - name: LANG
+              value: "zh-CN"
           resources:
             limits:
               cpu: "500m"
@@ -49,6 +51,26 @@ spec:
               port: 8081
             initialDelaySeconds: 5
             periodSeconds: 10
+          volumeMounts:
+            - mountPath: /root/config/app.yaml
+              name: feishubot-config
+              subPath: app.yaml
+            - mountPath: /root/locales/zh-CN.yaml
+              name: feishubot-i18n-zh-CN
+              subPath: zh-CN.yaml
+            - mountPath: /root/locales/en-US.yaml
+              name: feishubot-i18n-en-US
+              subPath: en-US.yaml
+      volumes:
+        - name: feishubot-config
+          configMap:
+            name: feishubot-cm
+        - name: feishubot-i18n-zh-CN
+          configMap:
+            name: feishubot-zh-cn-i18n
+        - name: feishubot-i18n-en-US
+          configMap:
+            name: feishubot-en-us-i18n
 
 ---
 apiVersion: v1
