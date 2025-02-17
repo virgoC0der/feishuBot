@@ -7,8 +7,9 @@ import (
 )
 
 type LarkConf struct {
-	AppId     string `mapstructure:"app_id"`
-	AppSecret string `mapstructure:"app_secret"`
+	AppId       string `mapstructure:"app_id"`
+	AppSecret   string `mapstructure:"app_secret"`
+	VerifyToken string `mapstructure:"verify_token"`
 }
 
 type LLMConf struct {

@@ -37,7 +37,7 @@ func main() {
 	services.InitLark()
 	services.InitOpenAI()
 
-	handler := dispatcher.NewEventDispatcher("J6P9r7s6Az54G64zt50eVhHwfWp0YVH3", "")
+	handler := dispatcher.NewEventDispatcher(conf.GConfig.Lark.VerifyToken, "")
 	handler = handler.OnP2MessageReceiveV1(handlers.ReceiveMsgHandler)
 
 	g := gin.Default()
