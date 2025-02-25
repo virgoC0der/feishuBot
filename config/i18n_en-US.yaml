@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: virgocoder
+  name: feishubot-eu-us-i18n
+data:
+  en-US.yaml: |-
+    service_unavailable: Service is temporarily unavailable, please try again later
+    empty_message_content: Received empty message content
+    thinking: Thinking...
+    send_error_failed: Failed to send error message
+    send_wait_message_failed: Failed to send waiting message
+    api_call_failed: Failed to call DeepSeek API
+    send_final_message_failed: Failed to send final message 

@@ -9,6 +9,7 @@
 feishu:
   app_id: YOUR_APP_ID
   app_secret: YOUR_APP_SECRET
+  verify_token: YOUR_VERIFY_TOKEN
 llm:
   model: YOUR_MODEL
   base_url: YOUR_API_BASE_URL
