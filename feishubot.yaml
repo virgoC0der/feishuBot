@@ -56,21 +56,21 @@ spec:
               name: feishubot-config
               subPath: app.yaml
             - mountPath: /root/locales/zh-CN.yaml
-              name: feishubot-i18n-zh-CN
+              name: feishubot-i18n-zh-cn
               subPath: zh-CN.yaml
             - mountPath: /root/locales/en-US.yaml
-              name: feishubot-i18n-en-US
+              name: feishubot-i18n-en-cn
               subPath: en-US.yaml
       volumes:
         - name: feishubot-config
           configMap:
             name: feishubot-cm
-        - name: feishubot-i18n-zh-CN
+        - name: feishubot-i18n-zh-cn
           configMap:
-            name: feishubot-zh-cn-i18n
-        - name: feishubot-i18n-en-US
+            name: feishubot-i18n-zh-cn
+        - name: feishubot-i18n-en-us
           configMap:
-            name: feishubot-en-us-i18n
+            name: feishubot-i18n-en-us
 
 ---
 apiVersion: v1

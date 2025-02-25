@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: virgocoder
-  name: feishubot-eu-us-i18n
+  name: feishubot-i18n-en-us
 data:
   en-US.yaml: |-
     service_unavailable: Service is temporarily unavailable, please try again later

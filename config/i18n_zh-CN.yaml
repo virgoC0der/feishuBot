@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: virgocoder
-  name: feishubot-zh-cn-i18n
+  name: feishubot-i18n-zh-cn
 data:
   zh-CN.yaml: |-
     service_unavailable: 服务暂时不可用，请稍后再试
