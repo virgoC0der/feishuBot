@@ -41,6 +41,8 @@ func ReceiveMsgHandler(ctx context.Context, event *larkim.P2MessageReceiveV1) er
 			return
 		}
 
+		logger.Info("thinking", zap.String("content", i18n.T("thinking")))
+
 		if err := sendBotMessage(i18n.T("thinking")); err != nil {
 			handleError(err, i18n.T("send_wait_message_failed"))
 			return

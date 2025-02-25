@@ -1,9 +1,10 @@
 package logger
 
 import (
+	"os"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
-	"os"
 )
 
 var (
@@ -44,6 +45,12 @@ func init() {
 // at the log site, as well as any fields accumulated on the logger.
 func Debug(msg string, fields ...zap.Field) {
 	Logger.Debug(msg, fields...)
+}
+
+// Info logs a message at InfoLevel. The message includes any fields passed
+// at the log site, as well as any fields accumulated on the logger.
+func Info(msg string, fields ...zap.Field) {
+	Logger.Info(msg, fields...)
 }
 
 // Warn logs a message at WarnLevel. The message includes any fields passed
