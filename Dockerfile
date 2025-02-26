@@ -6,7 +6,7 @@ COPY . .
 
 ENV GO111MODULE=on
 ENV GOSUMDB=off
-ENV GOPROXY=https://goproxy.cn
+#ENV GOPROXY=https://goproxy.cn
 
 RUN go mod tidy && go build -o feishuBot .
 RUN chmod +x feishuBot

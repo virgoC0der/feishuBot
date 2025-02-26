@@ -4,7 +4,6 @@ VERSION := v0.0.1
 .PHONY: build
 build: export GO111MODULE=on
 build: export GOSUMDB=off
-build: export GOPROXY=https://goproxy.cn
 build:
 	@echo "buiding feishuBot"
 	go mod tidy
