@@ -1,0 +1,9 @@
+apiVersion: v2
+name: feishubot
+description: 飞书机器人 Helm Chart
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+maintainers:
+  - name: VirgoZ
+    email: your-email@example.com 

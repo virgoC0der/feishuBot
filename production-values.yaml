@@ -1,0 +1,24 @@
+replicaCount: 3
+namespace: production
+
+image:
+  tag: "v1.2.0"
+
+resources:
+  limits:
+    cpu: 1000m
+    memory: 512Mi
+  requests:
+    cpu: 200m
+    memory: 128Mi
+
+ingress:
+  host: api.production-domain.com
+
+env:
+  LANG: "zh-CN"
+
+config:
+  feishu:
+    app_id: "production-app-id"
+    app_secret: "production-app-secret" 

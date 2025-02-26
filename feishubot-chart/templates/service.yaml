@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ include "feishubot.fullname" . }}-service
+  labels:
+    {{- include "feishubot.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "feishubot.selectorLabels" . | nindent 4 }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+  type: {{ .Values.service.type }} 

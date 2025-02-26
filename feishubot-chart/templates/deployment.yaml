@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  name: {{ include "feishubot.fullname" . }}
+  labels:
+    {{- include "feishubot.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "feishubot.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "feishubot.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          env:
+            {{- range $key, $val := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.service.targetPort }}
+            initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.service.targetPort }}
+            initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+          volumeMounts:
+            - mountPath: /root/config/app.yaml
+              name: config
+              subPath: app.yaml
+            - mountPath: /root/locales/zh-CN.yaml
+              name: i18n-zh-cn
+              subPath: zh-CN.yaml
+            - mountPath: /root/locales/en-US.yaml
+              name: i18n-en-us
+              subPath: en-US.yaml
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "feishubot.fullname" . }}-cm
+        - name: i18n-zh-cn
+          configMap:
+            name: {{ include "feishubot.fullname" . }}-i18n-zh-cn
+        - name: i18n-en-us
+          configMap:
+            name: {{ include "feishubot.fullname" . }}-i18n-en-us 

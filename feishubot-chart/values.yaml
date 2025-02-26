@@ -1,0 +1,77 @@
+# 基础配置
+replicaCount: 2
+namespace: virgocoder
+
+# 镜像配置
+image:
+  repository: registry.cn-shenzhen.aliyuncs.com/virgocoder/feishubot
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+# 服务配置
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8081
+
+# Ingress 配置
+ingress:
+  enabled: true
+  host: api.gianttough.cn
+  path: /api/v1/
+  pathType: Prefix
+
+# 资源限制
+resources:
+  limits:
+    cpu: 500m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 64Mi
+
+# 探针配置
+probes:
+  liveness:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  readiness:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+
+# 环境变量
+env:
+  PORT: "8081"
+  TZ: "Asia/Shanghai"
+  ZONEINFO: "/root/time/zoneinfo.zip"
+  LANG: "zh-CN"
+
+# 应用配置
+config:
+  feishu:
+    app_id: "cli_a72c5e84693a100b"
+    app_secret: "GgbhXZ3kEwwNqJ8h3s2DgbQE6Q7hFi26"
+    verify_token: "J6P9r7s6Az54G64zt50eVhHwfWp0YVH3"
+  llm:
+    model: "moonshot-v1-128k"
+    base_url: "https://api.moonshot.cn/v1/"
+    api_key: "sk-kBA1NYsSmoQly7mGyOq02Kl3vFYG48ILkTV1Ih87nDS6Ng8Z"
+
+# 国际化配置
+i18n:
+  zh-CN:
+    service_unavailable: "服务暂时不可用，请稍后再试"
+    empty_message_content: "收到空消息内容"
+    thinking: "正在思考中..."
+    send_error_failed: "发送错误消息失败"
+    send_wait_message_failed: "发送等待消息失败"
+    api_call_failed: "调用 DeepSeek API 失败"
+    send_final_message_failed: "发送最终消息失败"
+  en-US:
+    service_unavailable: "Service is temporarily unavailable, please try again later"
+    empty_message_content: "Received empty message content"
+    thinking: "Thinking..."
+    send_error_failed: "Failed to send error message"
+    send_wait_message_failed: "Failed to send waiting message"
+    api_call_failed: "Failed to call DeepSeek API"
+    send_final_message_failed: "Failed to send final message" 
