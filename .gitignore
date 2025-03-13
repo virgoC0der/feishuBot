@@ -1,3 +1,4 @@
 /config/config.yaml
 /config/app.yaml
 .idea
+.vscode
