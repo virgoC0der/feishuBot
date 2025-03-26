@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	client *openai.Client
+	client openai.Client
 )
 
 func InitOpenAI() {
@@ -25,11 +25,11 @@ func InitOpenAI() {
 // CallDeepSeekAPI sends a request to the DeepSeek API and returns the response
 func CallDeepSeekAPI(message string) (string, error) {
 	chatCompletion, err := client.Chat.Completions.New(context.Background(), openai.ChatCompletionNewParams{
-		Messages: openai.F([]openai.ChatCompletionMessageParamUnion{
+		Messages: []openai.ChatCompletionMessageParamUnion{
 			openai.UserMessage(message),
-		}),
-		Model:       openai.F(conf.GConfig.LLM.Model),
-		Temperature: openai.F(0.7),
+		},
+		Model:       openai.ChatModel(conf.GConfig.LLM.Model),
+		Temperature: openai.Float(0.7),
 	})
 
 	if err != nil {
