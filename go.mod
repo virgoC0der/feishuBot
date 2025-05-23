@@ -9,7 +9,7 @@ require (
 	github.com/larksuite/oapi-sdk-gin v1.0.0
 	github.com/larksuite/oapi-sdk-go/v3 v3.4.12
 	github.com/nicksnyder/go-i18n/v2 v2.5.1
-	github.com/openai/openai-go v0.1.0-beta.2
+	github.com/openai/openai-go v1.1.0
 	github.com/spf13/viper v1.20.0
 	github.com/stretchr/testify v1.10.0
 	go.uber.org/zap v1.27.0
