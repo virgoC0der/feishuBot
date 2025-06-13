@@ -7,7 +7,7 @@ toolchain go1.24.1
 require (
 	github.com/gin-gonic/gin v1.10.1
 	github.com/larksuite/oapi-sdk-gin v1.0.0
-	github.com/larksuite/oapi-sdk-go/v3 v3.4.18
+	github.com/larksuite/oapi-sdk-go/v3 v3.4.19
 	github.com/nicksnyder/go-i18n/v2 v2.6.0
 	github.com/openai/openai-go v1.5.0
 	github.com/spf13/viper v1.20.1
